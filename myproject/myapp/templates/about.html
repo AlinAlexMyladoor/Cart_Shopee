@@ -1,0 +1,438 @@
+{% load static %}
+{% include 'header.html' %}
+<style>
+    /* About Page Styles */
+    .about-hero {
+        background: linear-gradient(rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.95)), 
+                    url('{% static "images/about-hero-bg.jpg" %}') center/cover;
+        padding: 120px 0 80px;
+        text-align: center;
+        color: white;
+    }
+    
+    .about-hero h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    
+    .about-hero p {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        color: #d1d1d1;
+    }
+    
+    .mission-section {
+        padding: 80px 0;
+        background-color: #16213e;
+    }
+    
+    .section-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+    
+    .section-header h2 {
+        font-size: 2.5rem;
+        position: relative;
+        display: inline-block;
+        padding-bottom: 15px;
+    }
+    
+    .section-header h2:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(90deg, #6c5ce7, #fd79a8);
+    }
+    
+    .mission-content {
+        display: flex;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        gap: 50px;
+    }
+    
+    .mission-text {
+        flex: 1;
+    }
+    
+    .mission-image {
+        flex: 1;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .mission-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    
+    .values-section {
+        padding: 80px 0;
+        background-color: #1a1a2e;
+    }
+    
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .value-card {
+        background-color: #16213e;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        transition: transform 0.3s ease;
+        border: 1px solid rgba(108, 92, 231, 0.2);
+    }
+    
+    .value-card:hover {
+        transform: translateY(-10px);
+        border-color: #6c5ce7;
+    }
+    
+    .value-icon {
+        font-size: 2.5rem;
+        color: #6c5ce7;
+        margin-bottom: 20px;
+    }
+    
+    .value-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .team-section {
+        padding: 80px 0;
+        background-color: #16213e;
+    }
+    
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .team-member {
+        background-color: #1a1a2e;
+        border-radius: 10px;
+        overflow: hidden;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .member-image {
+        height: 250px;
+        overflow: hidden;
+    }
+    
+    .member-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .team-member:hover .member-image img {
+        transform: scale(1.1);
+    }
+    
+    .member-info {
+        padding: 25px;
+    }
+    
+    .member-info h3 {
+        font-size: 1.3rem;
+        margin-bottom: 5px;
+    }
+    
+    .member-info p {
+        color: #a29bfe;
+        margin-bottom: 15px;
+    }
+    
+    .member-social {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .member-social a {
+        color: white;
+        background-color: rgba(108, 92, 231, 0.2);
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+    
+    .member-social a:hover {
+        background-color: #6c5ce7;
+        transform: translateY(-3px);
+    }
+    
+    .stats-section {
+        padding: 80px 0;
+        background: linear-gradient(135deg, rgba(108, 92, 231, 0.1) 0%, rgba(253, 121, 168, 0.1) 100%);
+    }
+    
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .stat-item {
+        text-align: center;
+    }
+    
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #6c5ce7;
+        margin-bottom: 10px;
+    }
+    
+    .stat-label {
+        font-size: 1.1rem;
+        color: #d1d1d1;
+    }
+    
+    @media (max-width: 768px) {
+        .mission-content {
+            flex-direction: column;
+        }
+        
+        .about-hero h1 {
+            font-size: 2.5rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2rem;
+        }
+    }
+    .section-divider {
+    height: 40px;
+    background: transparent;
+}
+</style>
+
+<body>
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <h1>Our Story</h1>
+        <p>CartShoppe began with a simple idea: to create an e-commerce platform that combines quality products with exceptional customer service.</p>
+    </section>
+<div class="section-divider"></div>
+    <!-- Mission Section -->
+    <section class="mission-section">
+        <div class="section-header">
+            <h2>Our Mission</h2>
+        </div>
+        <div class="mission-content">
+            <div class="mission-text">
+                <p>Founded in 2015, CartShoppe has grown from a small startup to a leading e-commerce platform serving customers worldwide. Our journey began with a passion for connecting people with products that enhance their lives.</p>
+                <p>We believe in transparency, quality, and putting our customers first. Every product in our catalog is carefully curated to meet our high standards, ensuring you get the best value for your money.</p>
+                <p>Our team of dedicated professionals works tirelessly to innovate and improve your shopping experience, from seamless navigation to lightning-fast delivery.</p>
+            </div>
+            <div class="mission-image">
+                <img src="{% static 'images/team-working.jpg' %}" alt="Our team working together">
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values-section">
+        <div class="section-header">
+            <h2>Our Core Values</h2>
+        </div>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>Quality</h3>
+                <p>We source only the finest products and rigorously test them before they reach you.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Integrity</h3>
+                <p>Honest pricing, transparent policies, and ethical business practices guide everything we do.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Customer Focus</h3>
+                <p>Your satisfaction is our top priority. We listen, adapt, and go the extra mile.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3>Innovation</h3>
+                <p>We continuously evolve our platform to deliver cutting-edge shopping experiences.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3>Sustainability</h3>
+                <p>We're committed to eco-friendly practices and reducing our environmental impact.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Community</h3>
+                <p>We support local businesses and give back to the communities we serve.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="section-header">
+            <h2>Meet Our Team</h2>
+        </div>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="{% static 'images/team1.jpg' %}" alt="Alex Johnson">
+                </div>
+                <div class="member-info">
+                    <h3>Alex Johnson</h3>
+                    <p>CEO & Founder</p>
+                    <div class="member-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="{% static 'images/team5.jpg' %}" alt="Sarah Williams">
+                </div>
+                <div class="member-info">
+                    <h3>Sarah Williams</h3>
+                    <p>Chief Marketing Officer</p>
+                    <div class="member-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="{% static 'images/team3.jpg' %}" alt="Michael Chen">
+                </div>
+                <div class="member-info">
+                    <h3>Michael Chen</h3>
+                    <p>Head of Technology</p>
+                    <div class="member-social">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="{% static 'images/team4.jpg' %}" alt="Emily Rodriguez">
+                </div>
+                <div class="member-info">
+                    <h3>Amelia  Charlotte</h3>
+                    <p>Customer Experience Director</p>
+                    <div class="member-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="section-header">
+            <h2>By The Numbers</h2>
+        </div>
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">50K+</div>
+                <div class="stat-label">Happy Customers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">5M+</div>
+                <div class="stat-label">Products Sold</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">150+</div>
+                <div class="stat-label">Brand Partners</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Customer Support</div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'footer.html' %}
+
+    <script>
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.value-card, .team-member, .stat-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animatedElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'all 0.6s ease';
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>

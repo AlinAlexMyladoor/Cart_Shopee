@@ -1,0 +1,418 @@
+{% include 'header.html' %}
+{% load static %}
+
+<style>
+  :root {
+    --dark-bg: #121212;
+    --darker-bg: #1e1e1e;
+    --card-bg: #2d2d2d;
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --accent-color: #bb86fc;
+    --accent-hover: #9e6ad6;
+    --primary-color: #6200ee;
+    --secondary-color: #03dac6;
+    --danger-color: #ff5555;
+    --warning-color: #ffb86c;
+    --success-color: #50fa7b;
+    --border-color: #444;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --transition: all 0.3s ease;
+  }
+
+
+
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-primary);
+  }
+  
+  .filter-form {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: var(--accent-color);
+  }
+
+  .form-select, .form-control {
+    background-color: var(--darker-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1rem;
+    transition: var(--transition);
+  }
+
+  .form-select:focus, .form-control:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.25rem rgba(187, 134, 252, 0.25);
+    outline: none;
+  }
+
+  .btn-primary {
+    background-color: var(--accent-color);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: var(--transition);
+    color: #121212;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+  }
+
+  .card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: var(--transition);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card-bg);
+    box-shadow: var(--box-shadow);
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    border-color: var(--accent-color);
+  }
+
+  .card-img-top {
+    height: 200px;
+    object-fit: contain;
+    background-color: var(--darker-bg);
+    padding: 20px;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .card-text {
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+  }
+
+  .action-buttons {
+    margin-top: auto;
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .btn-add-to-cart, .btn-buy-now {
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: var(--transition);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-add-to-cart {
+    background-color: rgba(80, 250, 123, 0.2);
+    color: var(--success-color);
+    border: 1px solid var(--success-color);
+  }
+
+  .btn-add-to-cart:hover {
+    background-color: var(--success-color);
+    color: #121212;
+    transform: translateY(-2px);
+  }
+
+  .btn-buy-now {
+    background-color: rgba(187, 134, 252, 0.2);
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+  }
+
+  .btn-buy-now:hover {
+    background-color: var(--accent-color);
+    color: #121212;
+    transform: translateY(-2px);
+  }
+
+  .added-to-cart {
+    color: var(--success-color);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-outline-primary {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background-color: transparent;
+  }
+
+  .btn-outline-primary:hover {
+    background-color: var(--accent-color);
+    color: #121212;
+  }
+
+  .btn-outline-info {
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+    background-color: transparent;
+  }
+
+  .btn-outline-info:hover {
+    background-color: var(--secondary-color);
+    color: #121212;
+  }
+
+  .modal-content {
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+  }
+
+  .modal-header {
+    background-color: var(--accent-color);
+    color: #121212;
+    border-bottom: none;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+  }
+
+  .modal-title {
+    font-weight: 600;
+  }
+
+  .btn-close {
+    filter: invert(1);
+  }
+    h1 {
+  position: relative;
+  z-index: 2;
+  background-color: var(--dark-bg);
+}
+.container {
+  padding-top: 80px; /* adjust based on your navbar height */
+}
+html {
+  scroll-padding-top: 80px; /* same height as your navbar */
+}
+
+  .star-rating {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+  }
+
+  .review-text {
+    font-style: italic;
+    color: var(--text-primary);
+    margin: 0.5rem 0;
+  }
+
+  .review-date {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  .no-products {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+  }
+
+  @media (max-width: 768px) {
+    .card-img-top {
+      height: 150px;
+    }
+    
+    .action-buttons {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .btn-add-to-cart, .btn-buy-now {
+      width: 100%;
+      margin-bottom: 0.5rem;
+      justify-content: center;
+    }
+  }
+</style>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+      <form method="get" class="row g-3 p-4 rounded filter-form">
+        <div class="col-md-5">
+          <label class="form-label">Category</label>
+          <select name="category" class="form-select">
+            <option value="all">All Categories</option>
+            {% for cat in categories %}
+              <option value="{{ cat.name }}" {% if selected_category == cat.name %}selected{% endif %}>{{ cat.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Price Range</label>
+          <select name="price_range" class="form-select">
+            <option value="">All Prices</option>
+            <option value="0-500" {% if price_range == "0-500" %}selected{% endif %}>₹100 - ₹500</option>
+            <option value="501-800" {% if price_range == "501-800" %}selected{% endif %}>₹501 - ₹800</option>
+            <option value="801-1000" {% if price_range == "801-1000" %}selected{% endif %}>₹801 - ₹1000</option>
+            <option value="1001-4000" {% if price_range == "1001-4000" %}selected{% endif %}>₹1001 - ₹4000</option>
+            <option value="4001-5000" {% if price_range == "4001-5000" %}selected{% endif %}>₹4001 - ₹5000</option>
+            <option value="5001+" {% if price_range == "5001+" %}selected{% endif %}>₹5000+</option>
+          </select>
+        </div>
+
+        <div class="col-md-3 d-flex align-items-end">
+          <button type="submit" class="btn btn-primary w-100">
+            <i class="fas fa-filter me-2"></i>Filter
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    {% if products %}
+      {% for product in products %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ product.name }}</h5>
+              <p class="card-text"><strong>Category:</strong> {{ product.category }}</p>
+              <p class="card-text"><strong>Price:</strong> ₹{{ product.price }}</p>
+              
+              <div class="action-buttons">
+                {% if user.is_authenticated %}
+                  {% if product.id not in cart_product_ids %}
+                    <form method="post" action="{% url 'add_to_cart' product.id %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-add-to-cart">
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                      </button>
+                    </form>
+                  {% else %}
+                    <p class="added-to-cart">
+                      <i class="fas fa-check-circle"></i> Added to Cart
+                    </p>
+                  {% endif %}
+
+                  <form method="get" action="{% url 'buy_product' product.id %}">
+                    <button type="submit" class="btn btn-buy-now">
+                      <i class="fas fa-bolt"></i> Buy Now
+                    </button>
+                  </form>
+                {% else %}
+                  <a href="/3" class="btn btn-outline-primary w-100">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login to Purchase
+                  </a>
+                {% endif %}
+              </div>
+              
+              {% if product.reviews %}
+                <div class="d-flex justify-content-center mt-3">
+                  <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#feedbackModal{{ product.id }}">
+                    <i class="fas fa-comments me-2"></i>View Feedback
+                  </button>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+      {# Render all modals outside the card to avoid overflow/hidden issues #}
+      {% for product in products %}
+        {% if product.reviews %}
+          <div class="modal fade" id="feedbackModal{{ product.id }}" tabindex="-1" aria-labelledby="feedbackModalLabel{{ product.id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="feedbackModalLabel{{ product.id }}">Feedback for {{ product.name }}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  {% for review in product.reviews %}
+                    <div class="mb-4">
+                      <p class="mb-1"><strong style="color: white;">{{ review.user.username }}</strong></p>
+                      <p class="star-rating mb-2">
+                        {% for i in "12345" %}
+                          {% if forloop.counter <= review.rating %}
+                            <span style="color: gold;">★</span>
+                          {% else %}
+                            <span style="color: #ccc;">★</span>
+                          {% endif %}
+                        {% endfor %}
+                      </p>
+                      <p class="review-text">"{{ review.feedback }}"</p>
+                      {% if review.feedback_at %}
+                        <p class="review-date text-end">Submitted on {{ review.feedback_at|date:"F j, Y, g:i A" }}</p>
+                      {% endif %}
+                      {% if not forloop.last %}<hr>{% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <div class="col-12">
+        <div class="no-products">
+          <i class="fas fa-box-open fa-2x mb-3"></i>
+          <p>No products match your filters.</p>
+          <a href="?" class="btn btn-outline-primary">
+            <i class="fas fa-times me-2"></i>Clear Filters
+          </a>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% include 'footer.html' %}
+<script defer>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Remove focus-based animations or scaling quirks
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(btn => {
+      btn.addEventListener('mousedown', e => {
+        btn.style.transform = 'none';
+        btn.style.boxShadow = 'none';
+      });
+    });
+  });
+</script>

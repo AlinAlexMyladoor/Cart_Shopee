@@ -1,0 +1,561 @@
+{% load static %}
+{% include 'header.html' %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<style>
+    /* Home Page Specific Styles */
+    .hero-section {
+        background: linear-gradient(135deg, rgba(26, 26, 46, 0.9) 0%, rgba(22, 33, 62, 0.95) 100%);
+        padding: 100px 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid rgba(108, 92, 231, 0.3);
+    }
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('{% static "images/hero-pattern.png" %}') center/cover;
+        opacity: 0.1;
+        z-index: 0;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .welcome-message {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+    }
+    
+    .welcome-subtitle {
+        font-size: 1.5rem;
+        color: var(--text-muted);
+        margin-bottom: 40px;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 40px;
+    }
+    
+    .btn-primary-custom {
+        background-color: var(--primary-color);
+        border: none;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+    }
+    
+    .btn-primary-custom:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(108, 92, 231, 0.6);
+    }
+    
+    .btn-outline-custom {
+        background-color: transparent;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-outline-custom:hover {
+        background-color: rgba(108, 92, 231, 0.1);
+        color: var(--secondary-color);
+        border-color: var(--secondary-color);
+    }
+    
+    .featured-section {
+        padding: 80px 0;
+        background-color: var(--darker-bg);
+    }
+    
+    .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+        position: relative;
+    }
+    
+    .section-title h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--text-light);
+        display: inline-block;
+    }
+    
+    .section-title h2::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        border-radius: 3px;
+    }
+    
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .product-card {
+        background-color: var(--dark-bg);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        border-color: rgba(108, 92, 231, 0.5);
+    }
+    
+    .product-image {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .product-card:hover .product-image img {
+        transform: scale(1.1);
+    }
+    
+    .product-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: var(--accent-color);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    
+    .product-info {
+        padding: 20px;
+    }
+    
+    .product-category {
+        color: var(--secondary-color);
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+    
+    .product-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--text-light);
+    }
+    
+    .product-description {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+        line-height: 1.5;
+    }
+    
+    .product-price {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+    }
+    
+    .price {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+    
+    .old-price {
+        text-decoration: line-through;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-left: 5px;
+    }
+    
+    .add-to-cart {
+        background-color: rgba(108, 92, 231, 0.2);
+        color: var(--primary-color);
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .add-to-cart:hover {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .testimonials-section {
+        padding: 80px 0;
+        background-color: var(--dark-bg);
+    }
+    
+    .testimonial-card {
+        background-color: var(--darker-bg);
+        border-radius: 10px;
+        padding: 30px;
+        margin: 0 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .testimonial-text {
+        font-style: italic;
+        color: var(--text-light);
+        margin-bottom: 20px;
+        line-height: 1.6;
+    }
+    
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+    }
+    
+    .author-image {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 15px;
+    }
+    
+    .author-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .author-info h4 {
+        margin: 0;
+        color: var(--text-light);
+        font-size: 1.1rem;
+    }
+    
+    .author-info p {
+        margin: 5px 0 0;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+    
+    .newsletter-section {
+        padding: 80px 0;
+        background: linear-gradient(135deg, rgba(108, 92, 231, 0.1) 0%, rgba(253, 121, 168, 0.1) 100%);
+        text-align: center;
+    }
+    
+    .newsletter-form {
+        max-width: 600px;
+        margin: 40px auto 0;
+        display: flex;
+    }
+    
+    .newsletter-input {
+        flex: 1;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 50px 0 0 50px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: var(--text-light);
+        font-size: 1rem;
+    }
+    
+    .newsletter-input:focus {
+        outline: none;
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .newsletter-button {
+        padding: 15px 30px;
+        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        color: white;
+        border: none;
+        border-radius: 0 50px 50px 0;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .newsletter-button:hover {
+        opacity: 0.9;
+    }
+    
+   
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .welcome-message {
+            font-size: 2.5rem;
+        }
+        
+        .welcome-subtitle {
+            font-size: 1.2rem;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .newsletter-form {
+            flex-direction: column;
+        }
+        
+        .newsletter-input {
+            border-radius: 50px;
+            margin-bottom: 10px;
+        }
+        
+        .newsletter-button {
+            border-radius: 50px;
+        }
+    }
+</style>
+
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="welcome-message animate__animated animate__fadeInDown">
+                Welcome {% if request.user.username %}{{ request.user.username }}{% else %}Guest{% endif %}
+            </h1>
+            <p class="welcome-subtitle animate__animated animate__fadeIn animate__delay-1s">
+                Discover the latest trends and exclusive deals on our premium collection of products. 
+                Shop with confidence and enjoy a seamless shopping experience.
+            </p>
+            <div class="cta-buttons animate__animated animate__fadeInUp animate__delay-1s">
+                <a href="/9" class="btn btn-primary-custom">Shop Now</a>
+                {% if not user.is_authenticated %}
+                <a href="/4" class="btn btn-outline-custom">Join Now</a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="featured-section">
+        <div class="section-title">
+            <h2>Featured Products</h2>
+        </div>
+        <div class="product-grid">
+            <!-- Product 1 -->
+            <div class="product-card animate__animated animate__fadeIn">
+                <div class="product-image">
+                    <img src="{% static 'images/product1.jpg' %}" alt="Product 1">
+                    <span class="product-badge">New</span>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Electronics</p>
+                    <h3 class="product-title">Wireless Headphones</h3>
+                    <p class="product-description">Premium noise-cancelling wireless headphones with 30-hour battery life.</p>
+                    <div class="product-price">
+                        <div>
+                            <span class="price">₹699.00</span>
+                            <span class="old-price">₹5799.00</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 2 -->
+            <div class="product-card animate__animated animate__fadeIn animate__delay-1s">
+                <div class="product-image">
+                    <img src="{% static 'images/product2.jpg' %}" alt="Product 2">
+                    <span class="product-badge">Sale</span>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Fashion</p>
+                    <h3 class="product-title">Lightweight Sneakers</h3>
+                    <p class="product-description">Breathable, stylish, and built for all-day comfort—your perfect everyday shoe.
+</p>
+                    <div class="product-price">
+                        <div>
+                            <span class="price">₹1099.00</span>
+                            <span class="old-price">₹10499.00</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 3 -->
+            <div class="product-card animate__animated animate__fadeIn animate__delay-2s">
+                <div class="product-image">
+                    <img src="{% static 'images/product3.jpg' %}" alt="Product 3">
+                    <span class="product-badge">Popular</span>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Beauty</p>
+                    <h3 class="product-title">All-in-One Glam Kit</h3>
+                    <p class="product-description">A complete face solution with foundation, blush, eyeshadow, and lip color in one compact palette.</p>
+                    <div class="product-price">
+                        <div>
+                            <span class="price">$799.99</span>
+                            <span class="old-price">$4299.00</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="section-title">
+            <h2>What Our Customers Say</h2>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">
+                            "The quality of products at CartShoppe is unmatched. I've been a loyal customer for years and they never disappoint."
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <img src="{% static 'images/user1.jpg' %}" alt="Sarah J.">
+                            </div>
+                            <div class="author-info">
+                                <h4>Sarah Johnson</h4>
+                                <p>Premium Member</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">
+                            "Fast shipping and excellent customer service. I had an issue with my order and it was resolved immediately."
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <img src="{% static 'images/user2.jpg' %}" alt="Michael T.">
+                            </div>
+                            <div class="author-info">
+                                <h4>Michael Thompson</h4>
+                                <p>Verified Buyer</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">
+                            "The variety of products is amazing. I always find what I'm looking for at competitive prices."
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <img src="{% static 'images/user3.jpg' %}" alt="Emily R.">
+                            </div>
+                            <div class="author-info">
+                                <h4>Emily Rodriguez</h4>
+                                <p>Frequent Shopper</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="section-title">
+            <h2>Stay Updated</h2>
+            <p>Subscribe to our newsletter for exclusive deals and updates</p>
+        </div>
+        <form class="newsletter-form">
+            <input type="email" class="newsletter-input" placeholder="Your email address" required>
+            <button type="submit" class="newsletter-button">Subscribe</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <script>
+        // Add animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate__animated');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add(entry.target.dataset.animation);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Add to cart functionality
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.textContent = 'Added!';
+                    this.style.backgroundColor = '#4CAF50';
+                    setTimeout(() => {
+                        this.textContent = 'Add to Cart';
+                        this.style.backgroundColor = 'rgba(108, 92, 231, 0.2)';
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

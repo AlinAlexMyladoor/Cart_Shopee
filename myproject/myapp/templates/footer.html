@@ -1,0 +1,144 @@
+{% load static %}
+<style>
+     footer {
+        background-color: var(--darker-bg);
+        padding: 60px 0 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+    }
+    
+    .footer-column h3 {
+        color: var(--text-light);
+        margin-bottom: 25px;
+        font-size: 1.3rem;
+        position: relative;
+    }
+    
+    .footer-column h3::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    }
+    
+    .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .footer-links li {
+        margin-bottom: 12px;
+    }
+    
+    .footer-links a {
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+    }
+    
+    .footer-links a i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+    }
+    
+    .footer-links a:hover {
+        color: var(--primary-color);
+        transform: translateX(5px);
+    }
+    
+    .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+    
+    .social-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: var(--text-light);
+        transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+        background-color: var(--primary-color);
+        transform: translateY(-3px);
+    }
+    
+    .copyright {
+        text-align: center;
+        margin-top: 60px;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+</style>
+<footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>CartShoppe</h3>
+                <p style="color: var(--text-muted); line-height: 1.6;">
+                    Your premier destination for quality products at affordable prices. We're committed to providing exceptional customer service and a seamless shopping experience.
+                </p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="/1"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="/2"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="/9"><i class="fas fa-chevron-right"></i> Products</a></li>
+                    <li><a href="/9"><i class="fas fa-chevron-right"></i> New Arrivals</a></li>
+                    <li><a href="/9"><i class="fas fa-chevron-right"></i> Special Offers</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Shipping Policy</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Return Policy</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Info</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Shopping St, Retail City</a></li>
+                    <li><a href="#"><i class="fas fa-phone"></i> +1 (555) 123-4567</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> support@cartshoppe.com</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Mon-Fri: 9AM-6PM</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Sat: 10AM-4PM</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2017 CartShoppe. All Rights Reserved.
+        </div>
+    </footer>

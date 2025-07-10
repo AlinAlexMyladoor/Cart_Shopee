@@ -1,0 +1,177 @@
+{% load static %}
+{% include 'header.html' %}
+
+<style>
+  :root {
+    --dark-bg: #121212;
+    --darker-bg: #1e1e1e;
+    --card-bg: #2d2d2d;
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --accent-color: #bb86fc;
+    --accent-hover: #9e6ad6;
+    --border-color: #444;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-primary);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  h2 {
+    color: var(--accent-color);
+    font-weight: 700;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+    display: inline-block;
+  }
+
+  .img-fluid {
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease;
+  }
+
+  .img-fluid:hover {
+    transform: scale(1.02);
+  }
+
+  .list-group {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+  }
+
+  .list-group-item {
+    background-color: transparent;
+    color: var(--text-primary);
+    border-color: var(--border-color);
+    padding: 1rem 1.25rem;
+  }
+
+  .list-group-item strong {
+    color: var(--accent-color);
+    min-width: 120px;
+    display: inline-block;
+  }
+
+  #total {
+    color: var(--accent-color);
+    font-weight: 700;
+    font-size: 1.2em;
+  }
+
+  .form-control {
+    background-color: var(--darker-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1rem;
+  }
+
+  .form-control:focus {
+    background-color: var(--darker-bg);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.25rem rgba(187, 134, 252, 0.25);
+    color: var(--text-primary);
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+  }
+
+  .btn-primary {
+    background-color: var(--accent-color);
+    border: none;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+    color: #121212;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(187, 134, 252, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .col-md-6 {
+      margin-bottom: 2rem;
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+    }
+  }
+</style>
+
+<div class="container mt-4">
+  <h2 class="mb-4">Buy <strong>{{ product.name }}</strong></h2>
+
+  <div class="row">
+    <div class="col-md-6">
+      <img src="{{ product.image.url }}" class="img-fluid rounded shadow" alt="{{ product.name }}">
+    </div>
+    <div class="col-md-6">
+      <ul class="list-group list-group-flush mb-4">
+        <li class="list-group-item"><strong>Product Name:</strong> {{ product.name }}</li>
+        <li class="list-group-item"><strong>Category:</strong> {{ product.category }}</li>
+        <li class="list-group-item"><strong>Price:</strong> ₹{{ product.price }}</li>
+        <li class="list-group-item">
+          <strong>Total:</strong> ₹<span id="total">{{ product.price }}</span>
+        </li>
+      </ul>
+
+      <form method="post">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+          <label for="quantity" class="form-label">Quantity:</label>
+          <input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="address" class="form-label">Delivery Address:</label>
+          <textarea class="form-control" id="address" name="address" rows="4" placeholder="Enter your full address" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-shopping-bag me-2"></i>Proceed to Payment
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  const price = parseFloat("{{ product.price }}");
+  const quantityInput = document.getElementById("quantity");
+  const totalElement = document.getElementById("total");
+
+  function updateTotal() {
+    const quantity = parseInt(quantityInput.value) || 1;
+    const total = price * quantity;
+    totalElement.textContent = total.toFixed(2);
+  }
+
+  quantityInput.addEventListener("input", updateTotal);
+  document.addEventListener("DOMContentLoaded", updateTotal);
+</script>
+
+{% include 'footer.html' %}

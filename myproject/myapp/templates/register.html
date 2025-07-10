@@ -1,0 +1,240 @@
+{% load static %}
+{% include 'header.html' %}
+
+<style>
+    :root {
+        --primary-color: #6c5ce7;
+        --secondary-color: #a29bfe;
+        --accent-color: #fd79a8;
+        --dark-bg: #1a1a2e;
+        --darker-bg: #16213e;
+        --text-light: #f8f9fa;
+        --text-muted: #adb5bd;
+        --success-color: #4CAF50;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, var(--dark-bg), var(--darker-bg));
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    .register-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+        padding: 40px 20px;
+        margin-top: 80px; /* Account for fixed header */
+    }
+
+    .register-wrapper {
+        width: 100%;
+        max-width: 450px;
+        text-align: center;
+    }
+
+    .register-header {
+        margin-bottom: 30px;
+    }
+
+    .register-title {
+        color: var(--text-light);
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .register-subtitle {
+        color: var(--text-muted);
+        font-size: 1rem;
+    }
+
+    .register-form {
+        background-color: var(--darker-bg);
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        width: 100%;
+        border: 1px solid rgba(108, 92, 231, 0.3);
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--secondary-color);
+        font-weight: 500;
+        font-size: 0.95rem;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 14px 16px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: var(--text-light);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(90deg, var(--success-color), #45a049);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+    }
+
+    .submit-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+    }
+
+    .form-footer {
+        margin-top: 20px;
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    .form-footer a {
+        color: var(--secondary-color);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .form-footer a:hover {
+        color: var(--primary-color);
+    }
+
+    /* Alert messages */
+    .alert {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        padding: 15px 20px;
+        background-color: #f44336;
+        color: white;
+        border-radius: 5px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        animation: slideIn 0.5s, fadeOut 0.5s 2.5s forwards;
+    }
+
+    @keyframes slideIn {
+        from { transform: translateX(100%); }
+        to { transform: translateX(0); }
+    }
+
+    @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .register-container {
+            margin-top: 60px;
+            padding: 20px;
+        }
+        
+        .register-form {
+            padding: 30px;
+        }
+        
+        .register-title {
+            font-size: 2rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .register-form {
+            padding: 25px 20px;
+        }
+    }
+</style>
+
+<div class="register-container">
+    <div class="register-wrapper">
+        <div class="register-header">
+            <h1 class="register-title">Create Account</h1>
+            <p class="register-subtitle">Join our community today</p>
+        </div>
+
+        <form method="post" class="register-form">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <div class="error-message" style="color: var(--accent-color); margin-top: 5px; font-size: 0.8rem;">
+                    {{ field.errors|join:", " }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            
+            <button type="submit" class="submit-btn">
+                Register Now
+            </button>
+            
+            <div class="form-footer">
+                Already have an account? <a href="/3">Login here</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% include 'footer.html' %}
+
+<script>
+    // Auto-hide alerts after 3 seconds
+    document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        });
+        
+        // Add focus to first input field
+        const firstInput = document.querySelector('.form-group input');
+        if (firstInput) {
+            firstInput.focus();
+        }
+    });
+</script>
